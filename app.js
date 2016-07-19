@@ -30,6 +30,7 @@ app.post('/', function (req, res) {
 });
 
 send_message = function (PAT, senderId, message) {
+  console.log(senderId);
   console.log(message);
   request.post(
     'https://graph.facebook.com/v2.6/me/messages?access_token=' + PAT,
