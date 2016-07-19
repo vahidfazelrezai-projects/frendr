@@ -3,7 +3,7 @@ var bodyParser = require('body-parser')
 
 var app = express();
 var port = process.env.PORT || 5000;
-var PAT = 'asdfasdf';
+var PAT = process.env.PAT || 'patsecret';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
