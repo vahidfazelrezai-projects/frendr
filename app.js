@@ -1,5 +1,6 @@
 var express = require('express');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var request = require('request');
 
 var app = express();
 var port = process.env.PORT || 5000;
@@ -20,16 +21,25 @@ app.post('/', function (req, res) {
   messaging_events = req.body['entry'][0]['messaging'];
   messaging_events.forEach(function (e) {
     if (('message' in e) && ('text' in e['message'])) {
-      sender = e['sender']['id'];
-      message = 'tbd';
-      send_message(PAT, sender, message)
+      senderId = e['sender']['id'];
+      message = e['message']['text'];
+      send_message(PAT, senderId, message)
     }
   });
   res.send(messaging_events);
 });
 
-send_message = function (PAT, sender, message) {
-  console.log(message);
+send_message = function (PAT, senderId, message) {
+  request.post(
+    'https://graph.facebook.com/v2.6/me/messages?access_token=' + PAT,
+    {
+      "recipient":{
+        "id": senderId
+      },
+      "message":{
+        "text": message
+      }
+    });
 }
 
 app.listen(port, function() {
