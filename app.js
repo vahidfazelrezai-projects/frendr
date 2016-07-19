@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var request = require('request');
-
+var respond = require('./respond')
 var app = express();
 var port = process.env.PORT || 5000;
 var PAT = process.env.PAT || 'patsecret';
@@ -23,6 +23,7 @@ app.post('/', function (req, res) {
     if (('message' in e) && ('text' in e['message'])) {
       var senderId = e['sender']['id'];
       var message = e['message']['text'];
+      response = respond(message, senderId);
       send_message(PAT, senderId, message)
     }
   });
@@ -30,8 +31,6 @@ app.post('/', function (req, res) {
 });
 
 send_message = function (PAT, senderId, message) {
-  console.log(senderId);
-  console.log(message);
   var options = {
     uri: 'https://graph.facebook.com/v2.6/me/messages?access_token=' + PAT,
     method: 'POST',
