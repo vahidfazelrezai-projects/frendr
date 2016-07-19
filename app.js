@@ -18,11 +18,11 @@ app.get('/', function (req, res) {
 });
 
 app.post('/', function (req, res) {
-  messaging_events = req.body['entry'][0]['messaging'];
+  var messaging_events = req.body['entry'][0]['messaging'];
   messaging_events.forEach(function (e) {
     if (('message' in e) && ('text' in e['message'])) {
-      senderId = e['sender']['id'];
-      message = e['message']['text'];
+      var senderId = e['sender']['id'];
+      var message = e['message']['text'];
       send_message(PAT, senderId, message)
     }
   });
@@ -32,16 +32,19 @@ app.post('/', function (req, res) {
 send_message = function (PAT, senderId, message) {
   console.log(senderId);
   console.log(message);
-  request.post(
-    'https://graph.facebook.com/v2.6/me/messages?access_token=' + PAT,
-    {
+  var options = {
+    uri: 'https://graph.facebook.com/v2.6/me/messages?access_token=' + PAT,
+    method: 'POST',
+    json: {
       "recipient":{
         "id": senderId
       },
       "message":{
         "text": message
       }
-    });
+    }
+  };
+  request(options);
 }
 
 app.listen(port, function() {
