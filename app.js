@@ -9,12 +9,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', function (req, res) {
-  res.send('hi');
-  // if (req.query['hub.verify_token'] == 'inspired_by_zuck') {
-  //   res.send(req.query['hub.challenge']);
-  // } else {
-  //   res.send('Error, wrong validation token');
-  // }
+  if (req.query['hub.verify_token'] == 'inspired_by_zuck') {
+    res.send(req.query['hub.challenge']);
+  } else {
+    res.send('Error, wrong validation token');
+  }
 });
 
 app.post('/', function (req, res) {
