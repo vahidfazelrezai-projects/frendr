@@ -18,7 +18,7 @@ actions.logMessage = function (userId, message) {
 actions.sendMessage = function (userId, message) {
   request({
     method: 'POST',
-    uri: 'https://graph.facebook.com/v2.6/me/messages?access_token=' + PAT,
+    uri: 'https://graph.facebook.com/v2.6/me/messages',
     qs: {
       'access_token': pageAccessToken
     },

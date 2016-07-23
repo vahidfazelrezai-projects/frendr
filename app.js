@@ -21,8 +21,8 @@ app.post('/', function (req, res) {
     if (('message' in e) && ('text' in e['message'])) {
       var userId = e['sender']['id'];
       var message = e['message']['text'];
-      actions.logMessage(userId, message)
-      actions.sendMessage(userId, message)
+      actions.logMessage(userId, message);
+      actions.sendMessage(userId, message);
     }
   });
   res.send(messaging_events);
