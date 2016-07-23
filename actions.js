@@ -24,7 +24,20 @@ actions.sendMessage = function (userId, message) {
         'id': userId
       },
       'message': {
-        'text': message
+        "attachment":{
+          "type":"template",
+          "payload":{
+            "template_type":"button",
+            "text":"Click to authenticate",
+            "buttons":[
+              {
+                "type":"web_url",
+                "title":"Start Chatting",
+                "payload":"google.com"
+              }
+            ]
+          }
+        }
       }
     }
   });
