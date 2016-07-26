@@ -4,6 +4,7 @@ var app = express();
 var port = process.env.PORT || 5000;
 var chat = require('./modules/chat');
 var data = require('./modules/data');
+var graph = require('./modules/graph');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -20,7 +21,9 @@ app.post('/', function (req, res) {
         if (user) {
           chat.sendMessage(userId, 'welcome back!');
         } else {
-          chat.sendWelcome(userId);
+          graph.getFriends(userId, function (friends) {
+            chat.sendMessage(userId, JSON.stringify(friends));
+          })
         }
       })
     }
