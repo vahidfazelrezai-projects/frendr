@@ -30,7 +30,7 @@ app.post('/', function (req, res) {
 
 app.get('/auth', function (req, res) {
   data.setToken(req.query.userId, req.query.code);
-  res.send('set token for ' + req.query.userId + ' to ' + req.query.code);
+  res.redirect('http://m.me/meetpeeps');
 })
 
 app.listen(port, function () {
