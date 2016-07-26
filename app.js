@@ -18,9 +18,9 @@ app.post('/', function (req, res) {
       var message = e['message']['text'];
       data.getUser(userId, function (user) {
         if (user) {
-          chat.sendMessage('welcome back!');
+          chat.sendMessage(userId, 'welcome back!');
         } else {
-          chat.sendWelcome();
+          chat.sendWelcome(userId);
         }
       })
     }
