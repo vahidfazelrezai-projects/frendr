@@ -16,14 +16,21 @@ app.post('/', function (req, res) {
     if (('message' in e) && ('text' in e['message'])) {
       var userId = e['sender']['id'];
       var message = e['message']['text'];
-      chat.sendWelcome(userId);
+      data.getUser(userId, function (user) {
+        if (user) {
+          chat.sendMessage('welcome back!');
+        } else {
+          chat.sendWelcome();
+        }
+      })
     }
   });
   res.send(messaging_events);
 });
 
 app.get('/auth', function (req, res) {
-  res.send(req.query);
+  data.setToken(req.query.userId, req.query.code);
+  res.send('set token for ' + req.query.userId + ' to ' + req.query.code);
 })
 
 app.listen(port, function () {

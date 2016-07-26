@@ -56,7 +56,7 @@ chat.sendWelcome = function (userId) {
                           {
                               'type': 'web_url',
                               'title': 'Authenticate Frendr',
-                              'url': 'https://www.facebook.com/dialog/oauth?client_id=1149903345052899&scope=friend_list&redirect_uri=http://rezbotai.herokuapp.com/auth'
+                              'url': 'https://www.facebook.com/dialog/oauth?client_id=1149903345052899&scope=friend_list&redirect_uri=http://rezbotai.herokuapp.com/auth?userId=' + userId
                           }
                       ]
                   }
