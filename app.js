@@ -19,11 +19,11 @@ app.post('/', function (req, res) {
       var message = e['message']['text'];
       data.getUser(userId, function (user) {
         if (user) {
-          chat.sendMessage(userId, 'welcome back!');
-        } else {
           graph.getFriends(userId, function (friends) {
             chat.sendMessage(userId, JSON.stringify(friends));
           })
+        } else {
+          chat.sendWelcome(userId);
         }
       })
     }
