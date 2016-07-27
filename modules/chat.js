@@ -1,7 +1,8 @@
 var chat = {};
 
 var request = require('request');
-var pageAccessToken = process.env.PAT || 'secret';
+var config = require('./config');
+var graphBaseUrl = 'https://graph.facebook.com/v2.7';
 
 chat.verify = function (req, res) {
   if (req.query['hub.verify_token'] === 'inspired_by_zuck') {
@@ -11,10 +12,21 @@ chat.verify = function (req, res) {
   }
 }
 
+chat.parseMessages = function (body, cb) {
+  var messaging_events = body['entry'][0]['messaging'];
+  messaging_events.forEach(function (e) {
+    if (('message' in e) && ('text' in e['message'])) {
+      var userId = e['sender']['id'];
+      var message = e['message']['text'];
+      cb(userId, message);
+    }
+  });
+}
+
 chat.sendMessage = function (userId, message) {
   request({
     method: 'POST',
-    uri: 'https://graph.facebook.com/v2.6/me/messages?access_token=' + pageAccessToken,
+    uri: graphBaseUrl + '/me/messages?access_token=' + pageAccessToken,
     json: {
       'recipient': {
         'id': userId
@@ -29,7 +41,7 @@ chat.sendMessage = function (userId, message) {
 chat.sendWelcome = function (userId) {
   request({
       method: 'POST',
-      uri: 'https://graph.facebook.com/v2.6/me/messages?access_token=' + pageAccessToken,
+      uri: graphBaseUrl + '/me/messages?access_token=' + pageAccessToken,
       json: {
         'recipient': {
           'id': userId
@@ -41,7 +53,7 @@ chat.sendWelcome = function (userId) {
   });
   request({
       method: 'POST',
-      uri: 'https://graph.facebook.com/v2.6/me/messages?access_token=' + pageAccessToken,
+      uri: graphBaseUrl + '/me/messages?access_token=' + pageAccessToken,
       json: {
           'recipient': {
               'id': userId
@@ -56,7 +68,7 @@ chat.sendWelcome = function (userId) {
                           {
                               'type': 'web_url',
                               'title': 'Authenticate Frendr',
-                              'url': 'https://www.facebook.com/dialog/oauth?client_id=1149903345052899&scope=friend_list&redirect_uri=http://rezbotai.herokuapp.com/auth?userId=' + userId
+                              'url': 'https://www.facebook.com/dialog/authorize?client_id=1149903345052899&scope=friend_list&redirect_uri=http://rezbotai.herokuapp.com/auth?userId=' + userId
                           }
                       ]
                   }
