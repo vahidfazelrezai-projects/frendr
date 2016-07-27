@@ -13,7 +13,9 @@ chat.verify = function (req, res) {
 }
 
 chat.parseMessages = function (body, cb) {
+  console.log(body);
   var messaging_events = body['entry'][0]['messaging'];
+  console.log(messaging_events);
   messaging_events.forEach(function (e) {
     if (('message' in e) && ('text' in e['message'])) {
       var userId = e['sender']['id'];

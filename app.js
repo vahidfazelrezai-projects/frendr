@@ -18,6 +18,7 @@ app.get('/', chat.verify);
 
 app.post('/', function (req, res) {
   chat.parseMessages(req.body, function (userId, message) {
+    console.log('callback on', userId, message);
     data.getUser(userId, function (user) {
       if (!user) chat.sendWelcome(userId);
       else {
