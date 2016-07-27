@@ -38,4 +38,5 @@ app.get('/auth', function (req, res) {
 // START APP //
 app.listen(config.port, function () {
   console.log('running at port ' + config.port);
+  console.log(config);
 });
