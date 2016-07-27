@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var chat = require('./modules/chat');
 var data = require('./modules/data');
 var graph = require('./modules/graph');
+var config = require('./modules/config');
 
 // APP SETUP //
 var app = express();
